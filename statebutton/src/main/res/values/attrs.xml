@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StateButton">
+        <attr name="drawablePadding" format="dimension" />
+        <!-- Button text for the five states -->
+        <attr name="disabledText" format="string" localization="suggested" />
+        <attr name="enabledText" format="string" localization="suggested" />
+        <attr name="selectedText" format="string" localization="suggested" />
+        <!-- Text color -->
+        <attr name="disabledTextColor" format="integer|color" />
+        <attr name="enabledTextColor" format="integer|color" />
+        <attr name="selectedTextColor" format="integer|color" />
+        <!-- Button backgrounds -->
+        <attr name="disabledBackground" format="integer" />
+        <attr name="enabledBackground" format="integer" />
+        <attr name="selectedBackground" format="integer" />
+        <!-- Button icons -->
+        <attr name="disabledIcon" format="integer" />
+        <attr name="enabledIcon" format="integer" />
+        <attr name="selectedIcon" format="integer" />
+        <!-- Button icons visibility -->
+        <attr name="disabledIconVisible" format="boolean" />
+        <attr name="enabledIconVisible" format="boolean" />
+        <attr name="selectedIconVisible" format="boolean" />
+
+        <!-- The states of the button -->
+        <attr name="state" format="enum">
+            <enum name="disabled" value="0" />
+            <enum name="enabled" value="1" />
+            <enum name="selected" value="2" />
+        </attr>
+
+        <attr name="textSize" format="dimension" />
+        <attr name="iconTopMargin" format="dimension" />
+        <attr name="iconWidth" format="dimension" />
+        <attr name="iconHeight" format="dimension" />
+        <attr name="textStyle">
+            <flag name="normal" value="0x00000000" />
+            <flag name="bold" value="0x00000001" />
+            <flag name="italic" value="0x00000002" />
+        </attr>
+    </declare-styleable>
+</resources>

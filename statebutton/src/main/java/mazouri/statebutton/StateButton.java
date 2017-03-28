@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
@@ -194,11 +195,19 @@ public class StateButton extends RelativeLayout {
         }
 
         if (attrWrapper.icon != 0) {
+            mIconView.setVisibility(VISIBLE);
             mIconView.setImageResource(attrWrapper.icon);
+        } else {
+            mIconView.setVisibility(GONE);
         }
 
-        mTextView.setTextColor(attrWrapper.textColor);
-        mTextView.setText(attrWrapper.text);
+        if (!TextUtils.isEmpty(attrWrapper.text)) {
+            mTextView.setVisibility(VISIBLE);
+            mTextView.setTextColor(attrWrapper.textColor);
+            mTextView.setText(attrWrapper.text);
+        } else {
+            mTextView.setVisibility(GONE);
+        }
 
         setClickable(attrWrapper.clickable);
         invalidate();

@@ -28,6 +28,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.google.android:flexbox:0.3.0-alpha2'
 
     compile project(':statebutton')
 }

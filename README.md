@@ -1,5 +1,7 @@
 # android-state-button
 
+[![](https://jitpack.io/v/mazouri/android-state-button.svg)](https://jitpack.io/#mazouri/android-state-button)
+
 # About
 android-state-button is a custom view for mutil state button. 
 
@@ -8,6 +10,22 @@ android-state-button is a custom view for mutil state button.
 <img src="./screenshot/state_button_demo.gif">
 
 # How to use?
+
+1.Add it in your root build.gradle at the end of repositories:
+```
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+ 2.Add the dependency
+```
+	dependencies {
+	        compile 'com.github.mazouri:android-state-button:1.0'
+	}
+```
 
 ```
         <mazouri.statebutton.StateButton
@@ -110,3 +128,5 @@ android-state-button is a custom view for mutil state button.
         <th>StateButton默认状态</th>
     </tr>
 </table>
+
+You can also fork this project to update your own states

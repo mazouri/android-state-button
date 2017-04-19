@@ -53,6 +53,8 @@ public class CircleTextProgressbar extends android.support.v7.widget.AppCompatTe
      */
     private int progressLineColor = Color.BLUE;
 
+    private int progressLineBgColor = Color.GRAY;
+
     /**
      * 进度条的宽度。
      */
@@ -131,6 +133,7 @@ public class CircleTextProgressbar extends android.support.v7.widget.AppCompatTe
         circleColor = inCircleColors.getColorForState(getDrawableState(), Color.TRANSPARENT);
 
         progressLineColor = typedArray.getColor(R.styleable.CircleTextProgressbar_progressLineColor, Color.TRANSPARENT);
+        progressLineBgColor = typedArray.getColor(R.styleable.CircleTextProgressbar_progressLineBgColor, Color.GRAY);
         progressLineWidth = typedArray.getDimensionPixelSize(R.styleable.CircleTextProgressbar_progressLineWidth, 8);
         progressChangeDuration = typedArray.getInt(R.styleable.CircleTextProgressbar_progressChangeDuration, 0);
         maxProgress = typedArray.getInt(R.styleable.CircleTextProgressbar_maxProgress, 100);
@@ -202,6 +205,14 @@ public class CircleTextProgressbar extends android.support.v7.widget.AppCompatTe
 
     public void setProgressChangeDuration(int progressChangeDuration) {
         this.progressChangeDuration = progressChangeDuration;
+    }
+
+    public void setProgressLineColor(int progressLineColor) {
+        this.progressLineColor = progressLineColor;
+    }
+
+    public void setProgressLineBgColor(int progressLineBgColor) {
+        this.progressLineBgColor = progressLineBgColor;
     }
 
     public void setMaxProgress(int maxProgress) {
@@ -356,14 +367,17 @@ public class CircleTextProgressbar extends android.support.v7.widget.AppCompatTe
         canvas.drawText(getText().toString(), bounds.centerX(), textY, paint);
 
         //画进度条
-        mPaint.setColor(progressLineColor);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(progressLineWidth);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         int deleteWidth = progressLineWidth + outLineWidth;
         mArcRect.set(bounds.left + deleteWidth / 2, bounds.top + deleteWidth / 2, bounds.right - deleteWidth / 2, bounds.bottom - deleteWidth / 2);
 
-        Log.d("progress", "progress : " + progress  + ", maxProgress : " + maxProgress);
+        //画进度条背景
+        mPaint.setColor(progressLineBgColor);
+        canvas.drawArc(mArcRect, 0, 360, false, mPaint);
+
+        mPaint.setColor(progressLineColor);
         canvas.drawArc(mArcRect, 0, 360 * progress / maxProgress, false, mPaint);
     }
 

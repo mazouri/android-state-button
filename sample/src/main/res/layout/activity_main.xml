@@ -323,6 +323,8 @@
             app:barMaxProgress="15"
             app:barProgressLineColor="@color/colorPrimary"
             app:barProgressLineWidth="3dp"
+            app:barProgressTextColor="@color/colorPrimary"
+            app:barProgressLineBgColor="#fff"
             app:state="enabled"/>
 
         <mazouri.statebutton.StateButton
@@ -351,6 +353,7 @@
             app:barProgressLineColor="@color/colorPrimary"
             app:barProgressLineWidth="3dp"
             app:barProgressTextColor="@color/colorPrimary"
+            app:barProgressLineBgColor="#fff"
             app:state="enabled"/>
     </com.google.android.flexbox.FlexboxLayout>
 

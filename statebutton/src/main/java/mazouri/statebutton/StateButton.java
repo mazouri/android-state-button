@@ -69,6 +69,8 @@ public class StateButton extends RelativeLayout {
      */
     private int progressLineColor = Color.BLUE;
 
+    private int progressLineBgColor = Color.GRAY;
+
     private int progressTextColor;
 
     /**
@@ -145,6 +147,7 @@ public class StateButton extends RelativeLayout {
         int drawablePadding = a.getDimensionPixelSize(R.styleable.StateButton_drawablePadding, dip2px(10f));
 
         progressLineColor = a.getColor(R.styleable.StateButton_barProgressLineColor, Color.TRANSPARENT);
+        progressLineBgColor = a.getColor(R.styleable.StateButton_barProgressLineBgColor, Color.GRAY);
         progressTextColor = a.getColor(R.styleable.StateButton_barProgressTextColor, Color.WHITE);
         progressLineWidth = a.getDimensionPixelSize(R.styleable.StateButton_barProgressLineWidth, 8);
         progressChangeDuration = a.getInt(R.styleable.StateButton_barProgressChangeDuration, 0);
@@ -169,6 +172,7 @@ public class StateButton extends RelativeLayout {
         lpProgressbar.height = iconHeight;
         mCircleTextProgressbar.setId(ID_PROGRESS);
         mCircleTextProgressbar.setProgressColor(progressLineColor);
+        mCircleTextProgressbar.setProgressLineBgColor(progressLineBgColor);
         mCircleTextProgressbar.setProgressLineWidth(progressLineWidth);
         mCircleTextProgressbar.setProgressChangeDuration(progressChangeDuration);
         mCircleTextProgressbar.setMaxProgress(maxProgress);

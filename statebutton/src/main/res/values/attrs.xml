@@ -29,6 +29,7 @@
         <!--progress bar-->
         <attr name="barCircleColor" format="color" />
         <attr name="barProgressLineColor" format="color"/>
+        <attr name="barProgressLineBgColor" format="color"/>
         <attr name="barProgressTextColor" format="color"/>
         <attr name="barProgressLineWidth" format="dimension"/>
         <attr name="barProgressChangeDuration" format="integer"/>
@@ -55,6 +56,7 @@
 
     <declare-styleable name="CircleTextProgressbar">
         <attr name="inCircleColor" format="color" />
+        <attr name="progressLineBgColor" format="color"/>
         <attr name="progressLineColor" format="color"/>
         <attr name="progressLineWidth" format="dimension"/>
         <attr name="progressChangeDuration" format="integer"/>

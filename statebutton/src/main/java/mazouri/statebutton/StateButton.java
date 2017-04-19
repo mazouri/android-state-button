@@ -440,6 +440,10 @@ public class StateButton extends RelativeLayout {
         }
     }
 
+    public void stopProgress() {
+        mCircleTextProgressbar.stop();
+    }
+
     public void resetStateFromLoading() {
         setState(oldState);
     }

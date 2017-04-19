@@ -291,4 +291,69 @@
             app:selectedTextColor="#ffffff"
             app:state="disabled"/>
     </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:justifyContent="space_around">
+
+        <mazouri.statebutton.StateButton
+            android:id="@+id/state_button16"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="30dp"
+            app:enabledText="关闭"
+            app:enabledIcon="@drawable/ic_lock_open"
+            app:enabledTextColor="#ffffff"
+            app:disabledText="无效"
+            app:disabledIcon="@drawable/ic_lock_disable"
+            app:disabledTextColor="#33ffffff"
+            app:selectedText="打开"
+            app:selectedIcon="@drawable/ic_lock"
+            app:selectedTextColor="#ffffff"
+            app:drawablePadding="10dp"
+            app:iconTopMargin="18dp"
+            app:iconWidth="30dp"
+            app:iconHeight="30dp"
+            app:loadingText="打开"
+            app:loadingTextColor="#fff"
+            app:loadingBackground="@drawable/state_button_bg_enable"
+            app:barProgressChangeDuration="1000"
+            app:barMaxProgress="15"
+            app:barProgressLineColor="@color/colorPrimary"
+            app:barProgressLineWidth="3dp"
+            app:state="enabled"/>
+
+        <mazouri.statebutton.StateButton
+            android:id="@+id/state_button17"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="30dp"
+            app:enabledText="关闭"
+            app:enabledIcon="@drawable/ic_lock_open"
+            app:enabledTextColor="#ffffff"
+            app:disabledText="无效"
+            app:disabledIcon="@drawable/ic_lock_disable"
+            app:disabledTextColor="#33ffffff"
+            app:selectedText="打开"
+            app:selectedIcon="@drawable/ic_lock"
+            app:selectedTextColor="#ffffff"
+            app:drawablePadding="10dp"
+            app:iconTopMargin="18dp"
+            app:iconWidth="30dp"
+            app:iconHeight="30dp"
+            app:loadingText="打开"
+            app:loadingTextColor="#fff"
+            app:loadingBackground="@drawable/state_button_bg_enable"
+            app:barProgressChangeDuration="1000"
+            app:barMaxProgress="15"
+            app:barProgressLineColor="@color/colorPrimary"
+            app:barProgressLineWidth="3dp"
+            app:barProgressTextColor="@color/colorPrimary"
+            app:state="enabled"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+
 </LinearLayout>

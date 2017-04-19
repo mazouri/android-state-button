@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     StateButton stateButton13;
     StateButton stateButton14;
     StateButton stateButton15;
+    StateButton stateButton16;
 
     private Timer mTimer;
     private TimerTask mTimerTask;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         stateButton13 = (StateButton) findViewById(R.id.state_button13);
         stateButton14 = (StateButton) findViewById(R.id.state_button14);
         stateButton15 = (StateButton) findViewById(R.id.state_button15);
+        stateButton16 = (StateButton) findViewById(R.id.state_button16);
         setup();
     }
 
@@ -147,6 +149,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDisableToast(stateButton15);
+            }
+        });
+        stateButton16.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stateButton16.setState(StateButton.BUTTON_STATES.LOADING);
+            }
+        });
+        stateButton16.setCountdownProgressListener(new StateButton.OnCountdownListener() {
+            @Override
+            public void onProgress(int progress) {
+                stateButton16.setProgressText(progress + "");
             }
         });
     }

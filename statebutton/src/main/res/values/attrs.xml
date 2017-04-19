@@ -6,14 +6,17 @@
         <attr name="disabledText" format="string" localization="suggested" />
         <attr name="enabledText" format="string" localization="suggested" />
         <attr name="selectedText" format="string" localization="suggested" />
+        <attr name="loadingText" format="string" localization="suggested" />
         <!-- Text color -->
         <attr name="disabledTextColor" format="integer|color" />
         <attr name="enabledTextColor" format="integer|color" />
         <attr name="selectedTextColor" format="integer|color" />
+        <attr name="loadingTextColor" format="integer|color" />
         <!-- Button backgrounds -->
         <attr name="disabledBackground" format="integer" />
         <attr name="enabledBackground" format="integer" />
         <attr name="selectedBackground" format="integer" />
+        <attr name="loadingBackground" format="integer" />
         <!-- Button icons -->
         <attr name="disabledIcon" format="integer" />
         <attr name="enabledIcon" format="integer" />
@@ -23,11 +26,20 @@
         <attr name="enabledIconVisible" format="boolean" />
         <attr name="selectedIconVisible" format="boolean" />
 
+        <!--progress bar-->
+        <attr name="barCircleColor" format="color" />
+        <attr name="barProgressLineColor" format="color"/>
+        <attr name="barProgressTextColor" format="color"/>
+        <attr name="barProgressLineWidth" format="dimension"/>
+        <attr name="barProgressChangeDuration" format="integer"/>
+        <attr name="barMaxProgress" format="integer"/>
+
         <!-- The states of the button -->
         <attr name="state" format="enum">
             <enum name="disabled" value="0" />
             <enum name="enabled" value="1" />
             <enum name="selected" value="2" />
+            <enum name="loading" value="3"/>
         </attr>
 
         <attr name="textSize" format="dimension" />
@@ -39,5 +51,13 @@
             <flag name="bold" value="0x00000001" />
             <flag name="italic" value="0x00000002" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CircleTextProgressbar">
+        <attr name="inCircleColor" format="color" />
+        <attr name="progressLineColor" format="color"/>
+        <attr name="progressLineWidth" format="dimension"/>
+        <attr name="progressChangeDuration" format="integer"/>
+        <attr name="maxProgress" format="integer"/>
     </declare-styleable>
 </resources>

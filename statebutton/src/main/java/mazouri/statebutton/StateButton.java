@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 public class StateButton extends RelativeLayout {
 
     public static final int ID_ICON =0x1000001;
+    public static final int ID_PROGRESS =0x1000002;
+    public static final int ID_FRAME = 0x1000003;
     private TextView mTextView;
     private ImageView mIconView;
 
@@ -28,6 +32,7 @@ public class StateButton extends RelativeLayout {
     private String disabledText = "";
     private String enabledText = "";
     private String selectedText = "";
+    private String loadingText = "";
 
     /**
      * Texts color for the different states
@@ -35,6 +40,7 @@ public class StateButton extends RelativeLayout {
     private int disabledTextColor;
     private int enabledTextColor;
     private int selectedTextColor;
+    private int loadingTextColor;
 
     /**
      * Backgrounds for different states
@@ -42,6 +48,7 @@ public class StateButton extends RelativeLayout {
     private int disabledBackground;
     private int enabledBackground;
     private int selectedBackground;
+    private int loadingBackground;
 
     /**
      * Icons color for different states
@@ -58,6 +65,25 @@ public class StateButton extends RelativeLayout {
     private boolean selectedIconVisibility;
 
     /**
+     * 进度条的颜色。
+     */
+    private int progressLineColor = Color.BLUE;
+
+    private int progressTextColor;
+
+    /**
+     * 进度条的宽度。
+     */
+    private int progressLineWidth = 8;
+
+    /**
+     * 进度更新时间间隔
+     */
+    private int progressChangeDuration = 0;
+
+    private int maxProgress = 100;
+
+    /**
      * Previous state of button
      */
     private BUTTON_STATES oldState;
@@ -66,6 +92,8 @@ public class StateButton extends RelativeLayout {
      * Current state of the button
      */
     private BUTTON_STATES currentState;
+    private CircleTextProgressbar mCircleTextProgressbar;
+    private FrameLayout mFrameLayout;
 
     public StateButton(Context context) {
         this(context, null);
@@ -85,16 +113,19 @@ public class StateButton extends RelativeLayout {
         disabledText = a.getString(R.styleable.StateButton_disabledText);
         enabledText = a.getString(R.styleable.StateButton_enabledText);
         selectedText = a.getString(R.styleable.StateButton_selectedText);
+        loadingText = a.getString(R.styleable.StateButton_loadingText);
 
         // Texts color
         disabledTextColor = a.getColor(R.styleable.StateButton_disabledTextColor, Color.WHITE);
         enabledTextColor = a.getColor(R.styleable.StateButton_enabledTextColor, Color.WHITE);
         selectedTextColor = a.getColor(R.styleable.StateButton_selectedTextColor, Color.WHITE);
+        loadingTextColor = a.getColor(R.styleable.StateButton_loadingTextColor, Color.WHITE);
 
         // Backgrounds
         disabledBackground = a.getResourceId(R.styleable.StateButton_disabledBackground, 0);
         enabledBackground = a.getResourceId(R.styleable.StateButton_enabledBackground, 0);
         selectedBackground = a.getResourceId(R.styleable.StateButton_selectedBackground, 0);
+        loadingBackground = a.getResourceId(R.styleable.StateButton_loadingBackground, 0);
 
         // Icons
         disabledIcon = a.getResourceId(R.styleable.StateButton_disabledIcon, 0);
@@ -113,29 +144,50 @@ public class StateButton extends RelativeLayout {
         int iconHeight = a.getDimensionPixelSize(R.styleable.StateButton_iconHeight, dip2px(30f));
         int drawablePadding = a.getDimensionPixelSize(R.styleable.StateButton_drawablePadding, dip2px(10f));
 
+        progressLineColor = a.getColor(R.styleable.StateButton_barProgressLineColor, Color.TRANSPARENT);
+        progressTextColor = a.getColor(R.styleable.StateButton_barProgressTextColor, Color.WHITE);
+        progressLineWidth = a.getDimensionPixelSize(R.styleable.StateButton_barProgressLineWidth, 8);
+        progressChangeDuration = a.getInt(R.styleable.StateButton_barProgressChangeDuration, 0);
+        maxProgress = a.getInt(R.styleable.StateButton_barMaxProgress, 100);
+
         a.recycle();
 
         oldState = currentState;
 
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View viewRoot = inflater.inflate(R.layout.statebutton_layout, this, true);
-//        mIconView = (ImageView) viewRoot.findViewById(R.id.icon);
-//        mTextView = (TextView) viewRoot.findViewById(R.id.text_view);
-
         mIconView = new ImageView(context, attrs);
         LayoutParams lpIcon = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lpIcon.topMargin = iconTopMargin;
         lpIcon.width = iconWidth;
         lpIcon.height = iconHeight;
-        lpIcon.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         mIconView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mIconView.setId(ID_ICON);
-        addView(mIconView, lpIcon);
+//        addView(mIconView, lpIcon);
+
+        mCircleTextProgressbar = new CircleTextProgressbar(context, attrs);
+        LayoutParams lpProgressbar = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        lpProgressbar.width = iconWidth;
+        lpProgressbar.height = iconHeight;
+        mCircleTextProgressbar.setId(ID_PROGRESS);
+        mCircleTextProgressbar.setProgressColor(progressLineColor);
+        mCircleTextProgressbar.setProgressLineWidth(progressLineWidth);
+        mCircleTextProgressbar.setProgressChangeDuration(progressChangeDuration);
+        mCircleTextProgressbar.setMaxProgress(maxProgress);
+        mCircleTextProgressbar.setProgressType(CircleTextProgressbar.ProgressType.COUNT_BACK);
+        mCircleTextProgressbar.setVisibility(GONE);
+
+        mFrameLayout = new FrameLayout(context, attrs);
+        LayoutParams lpFrame = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lpFrame.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        lpFrame.topMargin = iconTopMargin;
+        mFrameLayout.addView(mIconView, lpIcon);
+        mFrameLayout.addView(mCircleTextProgressbar, lpProgressbar);
+        mFrameLayout.setId(ID_FRAME);
+        addView(mFrameLayout, lpFrame);
 
         mTextView = new TextView(context, attrs);
         LayoutParams lpText = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lpText.topMargin = drawablePadding;
-        lpText.addRule(RelativeLayout.BELOW, ID_ICON);
+        lpText.addRule(RelativeLayout.BELOW, ID_FRAME);
         lpText.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 
         mTextView.setDuplicateParentStateEnabled(true);
@@ -188,6 +240,14 @@ public class StateButton extends RelativeLayout {
                 attrWrapper.iconVisibility = selectedIconVisibility ? VISIBLE : INVISIBLE;
                 attrWrapper.clickable = true;
                 break;
+            case 3: //loading
+                attrWrapper.text = loadingText;
+                attrWrapper.textColor = loadingTextColor;
+                attrWrapper.background = loadingBackground;
+                attrWrapper.icon = 0;
+                attrWrapper.iconVisibility = GONE;
+                attrWrapper.clickable = false;
+                break;
         }
 
         if (attrWrapper.background != 0) {
@@ -195,10 +255,10 @@ public class StateButton extends RelativeLayout {
         }
 
         if (attrWrapper.icon != 0) {
-            mIconView.setVisibility(VISIBLE);
+            mFrameLayout.setVisibility(VISIBLE);
             mIconView.setImageResource(attrWrapper.icon);
         } else {
-            mIconView.setVisibility(GONE);
+            mFrameLayout.setVisibility(GONE);
         }
 
         if (!TextUtils.isEmpty(attrWrapper.text)) {
@@ -365,7 +425,49 @@ public class StateButton extends RelativeLayout {
     public void setState(BUTTON_STATES state) {
         this.oldState = this.currentState;
         this.currentState = state;
-        setup();
+        if (state == BUTTON_STATES.LOADING) {
+            mCircleTextProgressbar.setVisibility(VISIBLE);
+            mIconView.setVisibility(GONE);
+            mCircleTextProgressbar.reStart();
+        } else {
+            mCircleTextProgressbar.setVisibility(GONE);
+            mIconView.setVisibility(VISIBLE);
+            setup();
+        }
+    }
+
+    public void resetStateFromLoading() {
+        setState(oldState);
+    }
+
+    public void setProgressText(String progressText) {
+        mCircleTextProgressbar.setText(progressText);
+        mCircleTextProgressbar.setTextColor(progressTextColor);
+    }
+
+    public void setCountdownProgressListener(final OnCountdownListener onCountdownListener) {
+        mCircleTextProgressbar.setCountdownProgressListener(0, new CircleTextProgressbar.OnCountdownProgressListener() {
+            @Override
+            public void onProgress(int what, int progress) {
+                onCountdownListener.onProgress(progress);
+                if (progress == 0) {
+                    resetStateFromLoading();
+                }
+            }
+        });
+    }
+
+    /**
+     * 进度监听。
+     */
+    public interface OnCountdownListener {
+
+        /**
+         * 进度通知。
+         *
+         * @param progress 进度值。
+         */
+        void onProgress(int progress);
     }
 
     /**
@@ -384,7 +486,8 @@ public class StateButton extends RelativeLayout {
 
         DISABLED(0),
         ENABLED(1),
-        SELECTED(2);
+        SELECTED(2),
+        LOADING(3);
 
         private final int value;
 

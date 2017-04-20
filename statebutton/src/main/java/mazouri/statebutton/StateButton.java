@@ -429,6 +429,12 @@ public class StateButton extends RelativeLayout {
     public void setState(BUTTON_STATES state) {
         this.oldState = this.currentState;
         this.currentState = state;
+
+        if (state == BUTTON_STATES.LOADING && oldState == BUTTON_STATES.LOADING) {
+            //not reStart loading while loading
+            return;
+        }
+
         if (state == BUTTON_STATES.LOADING) {
             mCircleTextProgressbar.setVisibility(VISIBLE);
             mIconView.setVisibility(GONE);
@@ -449,6 +455,10 @@ public class StateButton extends RelativeLayout {
     }
 
     public void resetStateFromLoading() {
+        setState(oldState);
+    }
+
+    public void resetStateFromDisabled() {
         setState(oldState);
     }
 

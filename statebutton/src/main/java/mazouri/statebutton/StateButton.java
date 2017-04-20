@@ -427,13 +427,13 @@ public class StateButton extends RelativeLayout {
      * @param state
      */
     public void setState(BUTTON_STATES state) {
-        this.oldState = this.currentState;
-        this.currentState = state;
-
-        if (state == BUTTON_STATES.LOADING && oldState == BUTTON_STATES.LOADING) {
+        if (state == BUTTON_STATES.LOADING && currentState == BUTTON_STATES.LOADING) {
             //not reStart loading while loading
             return;
         }
+
+        this.oldState = this.currentState;
+        this.currentState = state;
 
         if (state == BUTTON_STATES.LOADING) {
             mCircleTextProgressbar.setVisibility(VISIBLE);
